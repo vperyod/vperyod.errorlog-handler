@@ -42,7 +42,7 @@ class ErrorlogHandler
     /**
      * Log
      *
-     * @var mixed
+     * @var Logger
      *
      * @access protected
      */
@@ -67,11 +67,9 @@ class ErrorlogHandler
     protected $level = Level::ALERT;
 
     /**
-     * __construct
+     * Create an ErrorlogHandler
      *
-     * @param Logger $logger DESCRIPTION
-     *
-     * @return mixed
+     * @param Logger $logger Psr\Log logger
      *
      * @access public
      */
@@ -81,11 +79,11 @@ class ErrorlogHandler
     }
 
     /**
-     * Set Log Level
+     * Set log level to use
      *
-     * @param mixed $level DESCRIPTION
+     * @param mixed $level Level to log exceptions
      *
-     * @return mixed
+     * @return $this
      *
      * @access public
      */
@@ -96,11 +94,12 @@ class ErrorlogHandler
     }
 
     /**
-     * Set Rethrow
+     * Set if handler should retrhow exception
      *
-     * @param mixed $bool DESCRIPTION
+     * @param bool $bool exception is re thrown if true
      *
-     * @return mixed
+     * @return $this
+     *
      * @access public
      */
     public function setRethrow($bool)
@@ -126,42 +125,60 @@ class ErrorlogHandler
     {
         try {
             return $next($request, $response);
-        } catch (Exception $error) {
-            $this->log($error, $request);
+        } catch (Exception $exception) {
+            $this->log($exception);
             if ($this->rethrow) {
-                throw $error;
+                throw $exception;
             }
-
-            return $this->formatResponse($error, $response);
+            return $this->formatResponse($exception, $response);
         }
     }
 
     /**
-     * Log an exception
+     * Log
      *
-     * @param Exception $exception DESCRIPTION
-     * @param Request   $request   DESCRIPTION
+     * @param Exception $exception Exception to log
      *
      * @return void
      *
      * @access protected
      */
-    protected function log(Exception $exception, Request $request)
+    protected function log(Exception $exception)
     {
         $this->logger->log(
             $this->level,
-            $exception,
-            ['request' => $request]
+            $this->formatException($exception),
+            ['exception' => $exception]
         );
     }
 
     /**
-     * FormatResponse
+     * Format Exception into log message
      *
-     * @param Exception $exception DESCRIPTION
-     * @param Response  $response  DESCRIPTION
+     * @param Exception $exception Exception to log
      *
-     * @return mixed
+     * @return string
+     *
+     * @access protected
+     */
+    protected function formatException(Exception $exception)
+    {
+        return sprintf(
+            'Uncaught Exception %s: "%s" at %s line %s',
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine()
+        );
+    }
+
+    /**
+     * Format response to return
+     *
+     * @param Exception $exception Caught exception
+     * @param Response  $response  Response object
+     *
+     * @return Response
      *
      * @access protected
      */

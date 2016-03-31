@@ -29,6 +29,17 @@ class ErrorlogHandlerTest extends \PHPUnit_Framework_TestCase
         $this->exception = new Exception($this->message);
     }
 
+    protected function formatException(Exception $exception)
+    {
+        return sprintf(
+            'Uncaught Exception %s: "%s" at %s line %s',
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine()
+        );
+    }
+
     public function testNoException()
     {
         $handler = $this->handler;
@@ -55,8 +66,8 @@ class ErrorlogHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('log')
             ->with(
                 LogLevel::ALERT,
-                $this->exception,
-                ['request' => $req]
+                $this->formatException($this->exception),
+                ['exception' => $this->exception]
             );
 
         $handler = $this->handler;
@@ -84,8 +95,8 @@ class ErrorlogHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('log')
             ->with(
                 $custom,
-                $this->exception,
-                ['request' => $req]
+                $this->formatException($this->exception),
+                ['exception' => $this->exception]
             );
 
         $handler = $this->handler;
@@ -111,8 +122,8 @@ class ErrorlogHandlerTest extends \PHPUnit_Framework_TestCase
             ->method('log')
             ->with(
                 LogLevel::ALERT,
-                $this->exception,
-                ['request' => $req]
+                $this->formatException($this->exception),
+                ['exception' => $this->exception]
             );
 
         $handler = $this->handler;
@@ -149,7 +160,6 @@ class ErrorlogHandlerTest extends \PHPUnit_Framework_TestCase
         );
 
     }
-
 
     public function noError($request, $response)
     {
