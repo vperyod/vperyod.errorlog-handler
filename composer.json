@@ -1,0 +1,32 @@
+{
+    "name": "vperyod/errorlog-handler",
+    "description": "PSR7/PSR3 Exception logging middleware",
+    "homepage":"https://github.com/vperyod/vperyod.errorlog-handler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jake johns",
+            "email": "jake@jakejohns.net"
+        }
+    ],
+    "require": {
+        "psr/http-message": "^1.0",
+        "psr/log": "^1.0"
+    },
+    "require-dev":{
+        "zendframework/zend-diactoros": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vperyod\\ErrorlogHandler\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vperyod\\ErrorlogHandler\\":"tests/"
+        }
+    },
+    "suggest": {
+        "monolog/monolog": "For logger implementation"
+    }
+}
