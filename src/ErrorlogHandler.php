@@ -46,7 +46,7 @@ class ErrorlogHandler
      *
      * @access protected
      */
-    protected $log;
+    protected $logger;
 
     /**
      * Rethrow exception?
