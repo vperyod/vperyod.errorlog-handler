@@ -29,7 +29,7 @@ $stack->middleware($handler);
 [Psr\Log]: https://github.com/php-fig/log
 
 [ico-version]: https://img.shields.io/packagist/v/vperyod/errorlog-handler.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/vperyod/vperyod.errorlog-handler/master.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/vperyod/vperyod.errorlog-handler/develop.svg?style=flat-square
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/vperyod/vperyod.errorlog-handler.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/vperyod/vperyod.errorlog-handler.svg?style=flat-square
 
